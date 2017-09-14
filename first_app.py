@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, Response
+from flask import Flask, render_template, request, redirect, Response, session
 from config import Config as cfg
 import requests
 import json
@@ -6,6 +6,24 @@ import json
 app = Flask(__name__, template_folder="templates")
 app.debug = True
 app.secret_key = cfg.SECRET_KEY
+
+
+@app.route('/products', methods=['GET'])
+def products():
+    """ Get a stores products """
+    headers = {
+        "X-Shopify-Access-Token": session.get("access_token"),
+        "Content-Type": "application/json"
+    }
+
+    endpoint = "/admin/products.json"
+    response = request.get("https://{0}{1}".format(session.get("shop"),
+                                                   endpoint), headers=headers)
+
+    if response.status_code == 200:
+        return response
+    else:
+        return False
 
 
 @app.route('/install', methods=['GET'])
@@ -18,8 +36,10 @@ def install():
     else:
         return Response(response="Error:parameter shop not found", status=500)
 
-    auth_url = "https://{0}/admin/oauth/authorize?client_id={1}&scope={2}&redirect_uri={3}".format(
-        shop, cfg.SHOPIFY_CONFIG["API_KEY"], cfg.SHOPIFY_CONFIG["SCOPE"], cfg.SHOPIFY_CONFIG["REDIRECT_URI"]
+    auth_url = "https://{0}/admin/oauth/authorize?client_id={1}&scope={2}&\
+    redirect_uri={3}".format(
+        shop, cfg.SHOPIFY_CONFIG["API_KEY"], cfg.SHOPIFY_CONFIG["SCOPE"],
+        cfg.SHOPIFY_CONFIG["REDIRECT_URI"]
     )
     print("Debug - auth URL: ", auth_url)
     return redirect(auth_url)
@@ -33,11 +53,21 @@ def connect():
             "client_secret": cfg.SHOPIFY_CONFIG["API_SECRET"],
             "code": request.args.get("code")
         }
-        resp = requests.post("https://{0}/admin/oauth/access_token".format(request.args.get("shop")), data=params)
+        resp = requests.post(
+            "https://{0}/admin/oauth/access_token".format(
+                request.args.get("shop")
+            ),
+            data=params
+        )
 
         if 200 == resp.status_code:
             resp_json = json.loads(resp.text)
-            return render_template('welcome.html')
+
+            session['access_token'] = resp_json.get("access_token")
+            session['shop'] = request.args.get("shop")
+
+            return render_template('welcome.html', from_shopify=resp_json,
+                                   products=products())
         else:
             print "Failed to get access token: ", resp.status_code, resp.text
             return render_template('error.html')
