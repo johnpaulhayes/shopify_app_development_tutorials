@@ -1,11 +1,11 @@
 
 class Config(object):
     SECRET_KEY = "CantStopAddictedToTheShinDigChopTopHeSaysImGonnaWinBig"
-    HOST = "d44753be.ngrok.io"
+    HOST = "0a398d5f.ngrok.io"
 
     SHOPIFY_CONFIG = {
-        'API_KEY': 'dcbe8df32e977f6f376749ab699f282a',
-        'API_SECRET': 'f4a3aeaf5643ae5715330cc92064a823',
+        'API_KEY': '<API KEY HERE>',
+        'API_SECRET': '<API SECRET HERE>',
         'APP_HOME': 'http://' + HOST,
         'CALLBACK_URL': 'http://' + HOST + '/install',
         'REDIRECT_URI': 'http://' + HOST + '/connect',

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome</title>
+    <title>Products</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -17,15 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body style="margin: 0 auto;">
-    <h1>HELLO WORLD</h1>
+  <body style="margin: 0 auto;padding: 20%;">
+    <h1>Products</h1>
 
     <div>
-      {{ from_shopify }}
-    </div>
 
-    <div>
-      <a href="/products">Get product list from store</a>
+      {% for product in products %}
+      <h4>{{ product.title }}</h4>
+      {% endfor %}
+
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
