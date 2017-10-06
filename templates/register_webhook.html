@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome</title>
+    <title>Webhooks</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -17,15 +17,20 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body style="margin: 0 auto; padding:20%;">
-    <h1>Welcome Shopify App Developer!</h1>
+  <body style="margin: 0 auto;padding: 20%;">
+    <h1>Registered Produce Update Webhook</h1>
 
     <div>
-      {{ from_shopify }}
+
+      Create Webhook Response:
+      <br/>
+      <br/>
+      <h2>{{ webhook_response }}</h2>
+
     </div>
 
-    <div style="padding-top:50px">
-      <h2><a href="/register_webhook">Click to register product update webhook</a></h2>
+    <div style="margin-top: 50px;">
+      <a href="/webhooks">List shop's webhooks</a>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
