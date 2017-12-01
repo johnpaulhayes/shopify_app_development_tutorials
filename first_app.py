@@ -17,7 +17,7 @@ def products():
     }
 
     endpoint = "/admin/products.json"
-    response = request.get("https://{0}{1}".format(session.get("shop"),
+    response = requests.get("https://{0}{1}".format(session.get("shop"),
                                                    endpoint), headers=headers)
 
     if response.status_code == 200:
@@ -36,8 +36,7 @@ def install():
     else:
         return Response(response="Error:parameter shop not found", status=500)
 
-    auth_url = "https://{0}/admin/oauth/authorize?client_id={1}&scope={2}&\
-    redirect_uri={3}".format(
+    auth_url = "https://{0}/admin/oauth/authorize?client_id={1}&scope={2}&redirect_uri={3}".format(
         shop, cfg.SHOPIFY_CONFIG["API_KEY"], cfg.SHOPIFY_CONFIG["SCOPE"],
         cfg.SHOPIFY_CONFIG["REDIRECT_URI"]
     )
